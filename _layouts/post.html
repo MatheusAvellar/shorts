@@ -1,0 +1,81 @@
+---
+layout: default
+---
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">
+      {{ page.title | escape }}
+    </h1>
+    <div class="post-meta-wrapper">
+      <p class="post-meta">
+        <span class="dt-published-wrapper">
+          <span class="dt-label">Added on</span>
+          <time class="date dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+            {% assign m = page.date | date: "%-m" %}
+            {{ page.date | date: "%-d" }}
+            {%- case m -%}
+              {% when  '1' %} jan
+              {% when  '2' %} feb
+              {% when  '3' %} mar
+              {% when  '4' %} apr
+              {% when  '5' %} may
+              {% when  '6' %} jun
+              {% when  '7' %} jul
+              {% when  '8' %} aug
+              {% when  '9' %} sep
+              {% when '10' %} out
+              {% when '11' %} nov
+              {% when '12' %} dec
+            {%- endcase -%}
+            {{ page.date | date: "%Y" }}
+          </time>
+        </span>
+      </p>
+      {%- if page.edit -%}
+      <p class="post-meta">
+        <span class="dt-edited-wrapper">
+          <span class="dt-label">Edited on</span>
+          <time class="date dt-edited" datetime="{{ page.edit | date_to_xmlschema }}" itemprop="dateEdited">
+            {% assign m = page.edit | date: "%-m" %}
+            {{ page.edit | date: "%-d" }}
+            {%- case m -%}
+              {% when  '1' %} jan
+              {% when  '2' %} feb
+              {% when  '3' %} mar
+              {% when  '4' %} apr
+              {% when  '5' %} may
+              {% when  '6' %} jun
+              {% when  '7' %} jul
+              {% when  '8' %} aug
+              {% when  '9' %} sep
+              {% when '10' %} out
+              {% when '11' %} nov
+              {% when '12' %} dec
+            {%- endcase -%}
+            {{ page.edit | date: "%Y" }}
+          </time>
+        </span>
+      </p>
+      {%- endif -%}
+    </div>
+  </header>
+  <div class="post-content e-content blog-post" itemprop="articleBody">
+    <p>
+      You will be redirected to <a href="{{ page.long }}">{{ page.long }}</a>
+      in <span id="seconds-left">{{ site.timeout }} seconds</span>.
+    </p>
+    <script>
+// [Ref] stackoverflow.com/a/31106382/4824627
+const element_ref = document.getElementById("seconds-left");
+let timeleft = {{ site.timeout }};
+let timer = setInterval(function(){
+  if(timeleft < 0) clearInterval(timer);
+  else element_ref.textContent = `${timeleft} second` + (timeleft > 1 ? "s" : "");
+  timeleft--;
+}, 1000);
+    </script>
+    <hr>
+    {{ content }}
+  </div>
+  <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+</article>
