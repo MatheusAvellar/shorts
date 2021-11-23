@@ -38,7 +38,7 @@ layout: default
           <time class="date dt-edited" datetime="{{ page.edit | date_to_xmlschema }}" itemprop="dateEdited">
             {% assign m = page.edit | date: "%-m" %}
             {{ page.edit | date: "%-d" }}
-            {%- case m -%}
+            {% case m %}
               {% when  '1' %} jan
               {% when  '2' %} feb
               {% when  '3' %} mar
@@ -51,7 +51,7 @@ layout: default
               {% when '10' %} out
               {% when '11' %} nov
               {% when '12' %} dec
-            {%- endcase -%}
+            {% endcase %}
             {{ page.edit | date: "%Y" }}
           </time>
         </span>
@@ -60,21 +60,41 @@ layout: default
     </div>
   </header>
   <div class="post-content e-content blog-post" itemprop="articleBody">
-    <p>
-      You will be redirected to <a href="{{ page.long }}">{{ page.long }}</a>
-      in <span id="seconds-left">{{ site.timeout }} seconds</span>.
+    <p id="redirect-warning" class="note">
+      <span id="redirect-normal">You will be redirected to
+      <a href="{{ page.long }}">{{ page.long }}</a> in <span id="seconds-left">{{ site.timeout }} seconds</span>.</span>
+      <span id="redirect-cancelled" hidden aria-hidden="true">You have cancelled
+      the redirection to <a href="{{ page.long }}">{{ page.long }}</a>.</span>
+      <br>
     </p>
     <script>
 // [Ref] stackoverflow.com/a/31106382/4824627
 const element_ref = document.getElementById("seconds-left");
-let timeleft = {{ site.timeout }};
-let timer = setInterval(function(){
-  if(timeleft < 0) clearInterval(timer);
-  else element_ref.textContent = `${timeleft} second` + (timeleft > 1 ? "s" : "");
-  timeleft--;
+let time_left = {{ site.timeout }};
+const counter_timer = setInterval(function() {
+  if(time_left < 0) clearInterval(counter_timer);
+  else element_ref.textContent = `${time_left} second` + (time_left < 2 ? "" : "s");
+  time_left--;
 }, 1000);
+
+const warning_ref = document.getElementById("redirect-warning");
+const normal_ref = document.getElementById("redirect-normal");
+const cancelled_ref = document.getElementById("redirect-cancelled");
+
+const stop_button = document.createElement("button");
+stop_button.textContent = "Stop timer";
+stop_button.onclick = function() {
+  clearTimeout(redirect_timer);
+  clearInterval(counter_timer);
+  stop_button.remove();
+  cancelled_ref.removeAttribute("hidden");
+  cancelled_ref.removeAttribute("aria-hidden");
+  normal_ref.setAttribute("hidden", "true");
+  normal_ref.setAttribute("aria-hidden", "true");
+}
+warning_ref.appendChild(stop_button);
     </script>
-    <hr>
+    <h2>Description</h2>
     {{ content }}
   </div>
   <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
