@@ -61,19 +61,19 @@ layout: default
   </header>
   <div class="post-content e-content blog-post" itemprop="articleBody">
     <p id="redirect-warning" class="note">
-      <span id="redirect-normal">You will be redirected to
-      <a href="{{ page.long }}">{{ page.long }}</a> in <span id="seconds-left">{{ site.timeout }} seconds</span>.</span>
+      <span id="redirect-normal">You will be redirected to the following URL</span>
+      <span id="seconds-left">in {{ site.timeout }} seconds.</span>
       <span id="redirect-cancelled" hidden aria-hidden="true">You have cancelled
-      the redirection to <a href="{{ page.long }}">{{ page.long }}</a>.</span>
-      <br>
+      the redirection to</span>
+      <a href="{{ page.long }}">{{ page.long }}</a>
     </p>
     <script>
 // [Ref] stackoverflow.com/a/31106382/4824627
-const element_ref = document.getElementById("seconds-left");
+const secondsleft_ref = document.getElementById("seconds-left");
 let time_left = {{ site.timeout }};
 const counter_timer = setInterval(function() {
   if(time_left < 0) clearInterval(counter_timer);
-  else element_ref.textContent = `${time_left} second` + (time_left < 2 ? "" : "s");
+  else secondsleft_ref.textContent = `in ${time_left} second` + (time_left < 2 ? "" : "s") + ".";
   time_left--;
 }, 1000);
 
@@ -89,8 +89,12 @@ stop_button.onclick = function() {
   stop_button.remove();
   cancelled_ref.removeAttribute("hidden");
   cancelled_ref.removeAttribute("aria-hidden");
-  normal_ref.setAttribute("hidden", "true");
-  normal_ref.setAttribute("aria-hidden", "true");
+  hide(normal_ref);
+  hide(secondsleft_ref);
+}
+function hide(el) {
+  el.setAttribute("hidden", "true");
+  el.setAttribute("aria-hidden", "true");
 }
 warning_ref.appendChild(stop_button);
     </script>

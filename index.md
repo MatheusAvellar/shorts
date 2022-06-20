@@ -15,14 +15,17 @@ permalink: /
   </p>
   {%- assign len = site.posts | size -%}
   {%- if len < 2 -%}
-  <p>There is currently <strong>{{ len }}</strong> registered URL.</p>
+  <p>There is currently <strong>{{ len }}</strong> registered URL:</p>
   {%- else -%}
-  <p>There are currently <strong>{{ len }}</strong> registered URLs.</p>
+  <p>There are currently <strong>{{ len }}</strong> registered URLs:</p>
   {%- endif -%}
   <ul>
   {% for post in site.posts %}
     <li>
-      <a href="{{ post.url }}">/{{ post.slug }}</a> ({{ post.title }})
+      <h2>{{ post.title }}</h2>
+      <p>
+        <a class="short-link" href="{{ post.url }}">s.avl.la/{{ post.slug }}</a>
+      </p>
     </li>
   {% endfor %}
   </ul>
