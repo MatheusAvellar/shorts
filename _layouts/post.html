@@ -13,7 +13,7 @@ layout: default
           <time class="date dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
             {% assign m = page.date | date: "%-m" %}
             {{ page.date | date: "%-d" }}
-            {%- case m -%}
+            {% case m %}
               {% when  '1' %} jan
               {% when  '2' %} feb
               {% when  '3' %} mar
@@ -26,7 +26,7 @@ layout: default
               {% when '10' %} out
               {% when '11' %} nov
               {% when '12' %} dec
-            {%- endcase -%}
+            {% endcase %}
             {{ page.date | date: "%Y" }}
           </time>
         </span>
@@ -53,6 +53,32 @@ layout: default
               {% when '12' %} dec
             {% endcase %}
             {{ page.edit | date: "%Y" }}
+          </time>
+        </span>
+      </p>
+      {%- endif -%}
+      {%- if page.last_checked -%}
+      <p class="post-meta">
+        <span class="dt-checked-wrapper">
+          <span class="dt-label">Last checked on</span>
+          <time class="date dt-checked" datetime="{{ page.last_checked | date_to_xmlschema }}" itemprop="dateEdited">
+            {% assign m = page.last_checked | date: "%-m" %}
+            {{ page.last_checked | date: "%-d" }}
+            {% case m %}
+              {% when  '1' %} jan
+              {% when  '2' %} feb
+              {% when  '3' %} mar
+              {% when  '4' %} apr
+              {% when  '5' %} may
+              {% when  '6' %} jun
+              {% when  '7' %} jul
+              {% when  '8' %} aug
+              {% when  '9' %} sep
+              {% when '10' %} out
+              {% when '11' %} nov
+              {% when '12' %} dec
+            {% endcase %}
+            {{ page.last_checked | date: "%Y" }}
           </time>
         </span>
       </p>

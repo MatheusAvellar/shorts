@@ -140,6 +140,7 @@ button:hover {
   padding: .5em;
   border-radius: 4px;
   background-color: #f6f6f6;
+  word-break: break-all;
 }
 #seconds-left {
   font-weight: 600;
@@ -399,7 +400,4 @@ button:hover {
 }
 #go-home:hover, #go-home:active, #go-home:focus {
   color: #1756a9;
-}
-#redirect-warning {
-  word-break: break-all;
 }
